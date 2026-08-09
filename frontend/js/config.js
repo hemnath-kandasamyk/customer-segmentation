@@ -1,2 +1,4 @@
-// Change this if the backend runs on a different host/port.
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://customer-segmentation-api-glw9.onrender.com";
