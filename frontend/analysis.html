@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Customer Analysis &middot; Customer Segmentation AI</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <div class="brand">
+      <div class="brand-mark">KM</div>
+      <div>
+        Customer Segmentation AI
+        <span class="brand-sub">AI-powered customer behavior &amp; risk analysis</span>
+      </div>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="analysis.html" class="active">Customer Analysis</a></li>
+      <li><a href="segments.html">Segments</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="model.html">About Model</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="section container">
+  <div class="section-head">
+    <h2>Customer Analysis</h2>
+    <p>Enter a customer's income and spending behavior. The trained K-Means model assigns them to one of 5 real clusters.</p>
+  </div>
+
+  <div class="analysis-layout">
+    <!-- LEFT: form -->
+    <div class="card">
+      <h3 style="margin-bottom:18px;">Customer Information</h3>
+
+      <div class="form-error-banner" id="formErrorBanner"></div>
+
+      <form id="analysisForm">
+        <div class="field">
+          <label for="customerName">Customer Name <span style="color:var(--text-faint)">(optional)</span></label>
+          <input class="input" type="text" id="customerName" placeholder="e.g. Aditi Sharma" />
+        </div>
+
+        <div class="field">
+          <label for="age">Age <span style="color:var(--text-faint)">(optional, for display only)</span></label>
+          <input class="input" type="number" id="age" placeholder="25" min="18" max="100" />
+          <div class="field-error" id="ageError"></div>
+          <div class="hint">Not used by the trained model &mdash; it was fit only on income and spending score.</div>
+        </div>
+
+        <div class="field">
+          <label for="annualIncome">Annual Income (k$)</label>
+          <input class="input" type="number" id="annualIncome" placeholder="75" min="0" required />
+          <div class="field-error" id="annualIncomeError"></div>
+        </div>
+
+        <div class="field">
+          <label for="spendingScore">Spending Score (1&ndash;100)</label>
+          <input class="input" type="number" id="spendingScore" placeholder="82" min="1" max="100" required />
+          <div class="field-error" id="spendingScoreError"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%;">
+          Analyze Customer
+        </button>
+      </form>
+    </div>
+
+    <!-- RIGHT: result -->
+    <div class="card" id="resultCard">
+      <div class="result-empty" id="resultEmpty">
+        <div class="icon-lg">&#9673;</div>
+        <h3 style="margin-bottom:8px;">Ready to Analyze</h3>
+        <p>Enter customer information to generate an AI-based segmentation result.</p>
+      </div>
+
+      <div id="resultContent" style="display:none;">
+        <div class="risk-panel" id="riskPanel">
+          <div class="risk-title" id="riskTitle">LOW RISK</div>
+          <div class="risk-sub" id="riskSub">Customer is healthy and highly engaged</div>
+        </div>
+
+        <div class="result-row"><span class="k">Customer Segment</span><span class="v" id="resSegment">&mdash;</span></div>
+        <div class="result-row"><span class="k">Cluster</span><span class="v" id="resCluster">&mdash;</span></div>
+        <div class="result-row"><span class="k">Risk Status</span><span class="v" id="resRisk">&mdash;</span></div>
+
+        <div class="insight-box" id="resInsight"></div>
+
+        <div class="grid grid-3 insight-cards" id="insightCards"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:28px;">
+    <h3 style="margin-bottom:4px;">Where this customer lands</h3>
+    <p class="chart-sub" style="margin-bottom:14px;">All 200 training customers plotted by income and spending. Diamonds mark the 5 real cluster centers.</p>
+    <div class="scatter-wrap">
+      <canvas id="analysisScatter"></canvas>
+    </div>
+    <div class="legend" id="analysisLegend"></div>
+  </div>
+</main>
+
+<footer>
+  Customer Segmentation AI &middot; Pre-trained K-Means &middot; Cluster-based classification, not a predicted probability.
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/scatter.js"></script>
+<script src="js/analysis.js"></script>
+</body>
+</html>

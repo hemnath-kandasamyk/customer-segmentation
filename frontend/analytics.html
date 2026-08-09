@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Analytics &middot; Customer Segmentation AI</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <div class="brand">
+      <div class="brand-mark">KM</div>
+      <div>
+        Customer Segmentation AI
+        <span class="brand-sub">AI-powered customer behavior &amp; risk analysis</span>
+      </div>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="analysis.html">Customer Analysis</a></li>
+      <li><a href="segments.html">Segments</a></li>
+      <li><a href="analytics.html" class="active">Analytics</a></li>
+      <li><a href="model.html">About Model</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="section container">
+  <div class="section-head">
+    <h2>Segment Analytics</h2>
+    <p>Dataset-wide analysis of all trained customers, computed from the live backend.</p>
+  </div>
+
+  <div class="grid grid-4" id="statGrid" style="margin-bottom:32px;">
+    <div class="card stat-card skel" style="height:90px"></div>
+    <div class="card stat-card skel" style="height:90px"></div>
+    <div class="card stat-card skel" style="height:90px"></div>
+    <div class="card stat-card skel" style="height:90px"></div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card chart-card">
+      <h3>Customer Segment Distribution</h3>
+      <p class="chart-sub">Share of customers per predicted segment</p>
+      <canvas id="segmentPieChart" height="220"></canvas>
+    </div>
+    <div class="card chart-card">
+      <h3>Risk Distribution</h3>
+      <p class="chart-sub">Low / Medium / High risk customer counts</p>
+      <canvas id="riskChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <div class="card chart-card" style="margin-top:18px;">
+    <h3>Income vs Spending</h3>
+    <p class="chart-sub">All 200 customers, colored by cluster</p>
+    <div class="scatter-wrap">
+      <canvas id="analyticsScatter"></canvas>
+    </div>
+    <div class="legend" id="analyticsLegend"></div>
+  </div>
+
+  <div class="card chart-card" style="margin-top:18px;">
+    <h3>Cluster Statistics</h3>
+    <p class="chart-sub">Average age, income, and spending score per cluster</p>
+    <canvas id="clusterStatsChart" height="200"></canvas>
+  </div>
+</main>
+
+<footer>
+  Customer Segmentation AI &middot; Pre-trained K-Means &middot; Cluster-based classification, not a predicted probability.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/scatter.js"></script>
+<script src="js/analytics.js"></script>
+</body>
+</html>

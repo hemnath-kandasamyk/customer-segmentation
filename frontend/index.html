@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Customer Segmentation AI</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <div class="brand">
+      <div class="brand-mark">KM</div>
+      <div>
+        Customer Segmentation AI
+        <span class="brand-sub">AI-powered customer behavior &amp; risk analysis</span>
+      </div>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Dashboard</a></li>
+      <li><a href="analysis.html">Customer Analysis</a></li>
+      <li><a href="segments.html">Segments</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="model.html">About Model</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section class="hero container">
+    <div>
+      <span class="eyebrow"><span class="dot"></span> K-Means &middot; 5 real clusters &middot; 200 customers</span>
+      <h1>Understand your customers <span>with AI</span></h1>
+      <p class="lead">
+        A pre-trained K-Means model groups customers by income and spending
+        behavior, so you can classify anyone into a real segment and a
+        cluster-based risk status in one request.
+      </p>
+      <div class="hero-actions">
+        <a href="analysis.html" class="btn btn-primary">Analyze Customer</a>
+        <a href="analytics.html" class="btn btn-ghost">View Analytics</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-visual-label">
+        <span>income_vs_spending.plot()</span>
+        <span id="heroPointCount">&hellip;</span>
+      </div>
+      <div class="scatter-wrap">
+        <canvas id="heroScatter"></canvas>
+      </div>
+      <div class="legend" id="heroLegend"></div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="pipeline">
+      <div class="pipeline-step"><div class="icon">&#9776;</div><span class="label">Form</span></div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-step"><div class="icon">&#9889;</div><span class="label">REST API</span></div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-step"><div class="icon">&#10003;</div><span class="label">Validate</span></div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-step"><div class="icon">K</div><span class="label">K-Means</span></div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-step"><div class="icon">&#9635;</div><span class="label">Cluster</span></div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-step"><div class="icon">&#9873;</div><span class="label">Risk Status</span></div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-step"><div class="icon">&#9673;</div><span class="label">Dashboard</span></div>
+    </div>
+  </div>
+
+  <section class="section container">
+    <div class="section-head">
+      <h2>Live dataset snapshot</h2>
+      <p>Computed directly from the trained model's dataset &mdash; nothing here is hard-coded.</p>
+    </div>
+    <div class="grid grid-4" id="statGrid">
+      <div class="card stat-card"><div class="stat-label">Total Customers</div><div class="stat-value skel" style="height:2.1rem;width:60%">&nbsp;</div></div>
+      <div class="card stat-card"><div class="stat-label">Segments</div><div class="stat-value skel" style="height:2.1rem;width:40%">&nbsp;</div></div>
+      <div class="card stat-card"><div class="stat-label">Low Risk</div><div class="stat-value skel" style="height:2.1rem;width:40%">&nbsp;</div></div>
+      <div class="card stat-card"><div class="stat-label">High Risk</div><div class="stat-value skel" style="height:2.1rem;width:40%">&nbsp;</div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Customer Segmentation AI &middot; Pre-trained K-Means &middot; Cluster-based classification, not a predicted probability.
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/scatter.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

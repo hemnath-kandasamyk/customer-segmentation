@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About Model &middot; Customer Segmentation AI</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <div class="brand">
+      <div class="brand-mark">KM</div>
+      <div>
+        Customer Segmentation AI
+        <span class="brand-sub">AI-powered customer behavior &amp; risk analysis</span>
+      </div>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="analysis.html">Customer Analysis</a></li>
+      <li><a href="segments.html">Segments</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="model.html" class="active">About Model</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="section container">
+  <div class="section-head">
+    <h2>About the Model</h2>
+    <p>K-Means clustering groups customers based on similarities in their behavioral characteristics. This page reflects the model actually loaded by the backend right now.</p>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3 style="margin-bottom:14px;">Model Details</h3>
+      <div id="infoRows">
+        <div class="info-row"><span class="k">Algorithm</span><span class="v skel" style="width:100px;height:14px">&nbsp;</span></div>
+        <div class="info-row"><span class="k">Learning Type</span><span class="v skel" style="width:100px;height:14px">&nbsp;</span></div>
+        <div class="info-row"><span class="k">Number of Clusters</span><span class="v skel" style="width:40px;height:14px">&nbsp;</span></div>
+        <div class="info-row"><span class="k">Preprocessing</span><span class="v skel" style="width:100px;height:14px">&nbsp;</span></div>
+        <div class="info-row"><span class="k">Prediction Type</span><span class="v skel" style="width:100px;height:14px">&nbsp;</span></div>
+      </div>
+      <p style="margin-top:16px;color:var(--text-dim);font-size:0.88rem;" id="infoNote"></p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:14px;">Features Used</h3>
+      <div id="featureChips"></div>
+      <p style="margin-top:18px;color:var(--text-dim);font-size:0.88rem;">
+        The feature order sent to the model must exactly match training order.
+        Age is collected on the analysis form for display only &mdash; it is
+        not part of the clustering feature vector because the trained model
+        was never fit on it.
+      </p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px;">
+    <h3 style="margin-bottom:14px;">Segment &rarr; Risk Mapping</h3>
+    <div id="mappingRows"></div>
+  </div>
+</main>
+
+<footer>
+  Customer Segmentation AI &middot; Pre-trained K-Means &middot; Cluster-based classification, not a predicted probability.
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/model.js"></script>
+</body>
+</html>
