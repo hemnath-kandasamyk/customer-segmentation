@@ -1,4 +1,5 @@
 const API_BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://customer-segmentation-api-glw9.onrender.com";
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+        ? "http://localhost:5000"
+        : "https://customer-segmentation-api-glw9.onrender.com";
