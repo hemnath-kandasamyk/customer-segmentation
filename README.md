@@ -1,197 +1,682 @@
-# Customer Segmentation & Risk Analysis System
+# 🤖 Customer Segmentation AI
 
-A full-stack web app that uses a **pre-trained K-Means model** to classify
-customers into real segments and a cluster-based risk status.
+### AI-Powered Customer Behavior & Risk Analysis
 
-> **Note on the model.** The uploaded notebook
-> (`notebooks/01-kmeans-customer-segmentation.ipynb`) trains K-Means with
-> `n_clusters=5` on two raw features — **Annual Income (k$)** and
-> **Spending Score (1-100)** — from the classic 200-row Mall Customers
-> dataset, with **no scaler**. This app is built around that exact model,
-> not the 4-cluster / 4-feature / scaler example in the original brief.
-> Where the two disagreed, the real trained model won — see
-> "Deviations from the original brief" below.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge\&logo=vercel)](https://customer-segmentation-pearl.vercel.app/index.html)
+[![Machine Learning](https://img.shields.io/badge/ML-K--Means-blue?style=for-the-badge)](https://scikit-learn.org/stable/modules/clustering.html)
+[![Python](https://img.shields.io/badge/Python-3.x-yellow?style=for-the-badge\&logo=python)](https://www.python.org/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-orange?style=for-the-badge\&logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Vercel](https://img.shields.io/badge/Deployed-Vercel-black?style=for-the-badge\&logo=vercel)](https://vercel.com/)
 
-## 1. Project structure
+---
 
-```
-customer-segmentation/
-├── backend/
-│   ├── app.py                     # Flask entrypoint, loads model+data once
-│   ├── routes/
-│   │   ├── prediction.py          # POST /api/predict
-│   │   ├── analytics.py           # GET /api/statistics, /segments, ...
-│   │   └── model.py               # GET /api/model-info
-│   ├── services/
-│   │   ├── prediction_service.py  # validation + inference
-│   │   └── analytics_service.py   # dataset-derived stats
-│   ├── config/
-│   │   └── cluster_mapping.py     # cluster -> segment/risk, with reasoning
-│   ├── models/
-│   │   └── kmeans_model.pkl       # the trained model (joblib)
-│   ├── data/
-│   │   └── customers.csv          # training data + assigned cluster labels
-│   └── requirements.txt
-├── frontend/
-│   ├── index.html                 # dashboard / hero
-│   ├── analysis.html              # main feature: form + prediction
-│   ├── segments.html              # segment cards
-│   ├── analytics.html             # charts
-│   ├── model.html                 # About Model page
-│   ├── css/style.css
-│   └── js/                        # config, api client, scatter chart, pages
-├── notebooks/
-│   └── 01-kmeans-customer-segmentation.ipynb   # original training notebook
-└── README.md
-```
+## 🌐 Live Application
 
-## 2. Setup & run
+### 🚀 [Open Customer Segmentation AI](https://customer-segmentation-pearl.vercel.app/index.html)
 
-### Backend
+The application provides an interactive web interface for analyzing customer behavior using a **pre-trained K-Means clustering model**.
 
-```bash
-cd backend
-python3 -m venv venv && source venv/bin/activate   # optional but recommended
-pip install -r requirements.txt
-python3 app.py
-```
+Users can enter customer information and receive:
 
-The API starts on **http://localhost:5000**. The model and dataset are
-loaded once at startup (see the log line "Model and dataset loaded
-successfully"), not on every request.
+* Customer segment
+* Predicted cluster
+* Cluster-based risk status
+* Customer insights
+* Segment analytics
+* Dataset statistics
+* Model information
 
-### Frontend
+> **Note:** Risk status is a cluster-based business interpretation. K-Means itself does not produce a probability of customer risk.
 
-The frontend is plain HTML/CSS/JS — no build step. Serve it with any
-static file server, e.g.:
+---
 
-```bash
-cd frontend
-python3 -m http.server 8080
+# 📌 Project Overview
+
+**Customer Segmentation AI** is a Machine Learning-powered web application designed to group customers based on similarities in their behavioral and financial characteristics.
+
+The project uses a **pre-trained K-Means clustering model** to identify customer segments based primarily on customer income and spending behavior.
+
+Instead of simply displaying the ML output as a cluster number, the application converts the cluster into a meaningful customer segment and a corresponding **cluster-based risk status**.
+
+### Core Workflow
+
+```text
+Customer Data
+      ↓
+Frontend Input Form
+      ↓
+REST API
+      ↓
+Input Validation
+      ↓
+Data Preprocessing
+      ↓
+Saved Scaler
+      ↓
+Pre-trained K-Means Model
+      ↓
+Cluster Prediction
+      ↓
+Cluster Interpretation
+      ↓
+Risk Status
+      ↓
+Frontend Dashboard
 ```
 
-Then open **http://localhost:8080**. If your backend runs somewhere other
-than `http://localhost:5000`, update `API_BASE_URL` in `frontend/js/config.js`.
+---
 
-## 3. API documentation
+# 🎯 Problem Statement
 
-| Method | Endpoint                | Purpose                                          |
-|--------|--------------------------|---------------------------------------------------|
-| GET    | `/api/health`            | Liveness check                                     |
-| POST   | `/api/predict`           | Classify a customer                                |
-| GET    | `/api/statistics`        | Dataset-wide counts (total, per-risk)              |
-| GET    | `/api/segments`          | Per-segment stats (count, avg income/spending/age) |
-| GET    | `/api/cluster-analysis`  | Per-cluster average feature values                 |
-| GET    | `/api/scatter-data`      | All 200 (income, spending, cluster) points         |
-| GET    | `/api/segment-distribution` | Segment name -> count, for the pie chart        |
-| GET    | `/api/model-info`        | Algorithm, features, cluster->segment mapping      |
+Businesses often have customers with very different purchasing behaviors.
 
-### Example request
+Treating every customer in the same way can make it difficult to:
 
+* Identify valuable customers
+* Understand customer behavior
+* Detect low-engagement customers
+* Create targeted marketing strategies
+* Prioritize customer engagement
+* Make data-driven decisions
+
+This project addresses the problem by using **unsupervised Machine Learning** to automatically group customers into meaningful behavioral segments.
+
+---
+
+# 💡 Our Solution
+
+The system uses a pre-trained **K-Means clustering model** to classify a new customer's data into one of the learned clusters.
+
+For example:
+
+```text
+Customer Input
+     ↓
+Annual Income
+Spending Score
+Other Model Features
+     ↓
+Preprocessing
+     ↓
+K-Means
+     ↓
+Cluster 2
+     ↓
+Customer Segment
+     ↓
+Risk Status
 ```
-POST /api/predict
-Content-Type: application/json
 
+The application then presents the result through an easy-to-understand dashboard.
+
+---
+
+# 🧠 Machine Learning
+
+## Algorithm
+
+### K-Means Clustering
+
+K-Means is an **unsupervised Machine Learning algorithm** that groups similar data points into a predefined number of clusters.
+
+In this project, the trained model contains:
+
+```text
+Algorithm: K-Means
+Clusters: 5
+Dataset: 200 customers
+```
+
+The application uses the trained model for inference rather than retraining it whenever a user submits customer information.
+
+---
+
+# 🔄 Prediction Pipeline
+
+When a user enters customer information:
+
+### 1. User Input
+
+```json
 {
-  "customer_name": "Aditi Sharma",
   "age": 25,
-  "annual_income": 75,
+  "annual_income": 75000,
   "spending_score": 82
 }
 ```
 
-### Example response
+### 2. Backend Validation
+
+The API validates the submitted values.
+
+### 3. Preprocessing
+
+The same preprocessing/scaling used during model training is applied.
+
+### 4. K-Means Prediction
+
+The saved K-Means model predicts the customer's cluster.
+
+```python
+cluster = model.predict(scaled_data)
+```
+
+### 5. Cluster Interpretation
+
+The cluster number is mapped to a meaningful customer segment.
+
+### 6. Risk Status
+
+A business-rule mapping converts the segment into a cluster-based risk status.
+
+### 7. Frontend Result
+
+The final result is displayed in the Customer Analysis dashboard.
+
+---
+
+# ⚠️ Important ML Note
+
+K-Means does **not directly predict customer risk**.
+
+It identifies groups of customers based on similarity.
+
+Therefore, this project uses:
+
+```text
+K-Means Cluster
+       ↓
+Cluster Interpretation
+       ↓
+Business Segment
+       ↓
+Cluster-Based Risk Status
+```
+
+The risk status should therefore be understood as a **business interpretation of the customer's cluster**, not a probability generated by the K-Means algorithm.
+
+---
+
+# ✨ Features
+
+## 📊 Dashboard
+
+The dashboard provides an overview of the customer dataset and segmentation results.
+
+Includes:
+
+* Total customers
+* Number of segments
+* Risk distribution
+* Customer statistics
+* Model overview
+
+---
+
+## 👤 Customer Analysis
+
+Users can enter customer information through an interactive form.
+
+The system processes the information through the trained ML pipeline and returns:
+
+* Cluster
+* Customer segment
+* Risk status
+* Customer insights
+
+---
+
+## 🧩 Customer Segments
+
+The application provides an overview of the different clusters discovered by the K-Means model.
+
+Each segment can contain:
+
+* Customer count
+* Average income
+* Average spending behavior
+* Risk classification
+* Segment description
+
+---
+
+## 📈 Analytics
+
+The analytics section provides visual insights into the customer dataset.
+
+Examples include:
+
+* Income vs Spending visualization
+* Segment distribution
+* Risk distribution
+* Cluster statistics
+* Customer behavior analysis
+
+---
+
+## 🤖 Model Information
+
+The application includes an explanation of the Machine Learning model.
+
+It displays information such as:
+
+```text
+Algorithm
+    ↓
+K-Means Clustering
+
+Learning Type
+    ↓
+Unsupervised Learning
+
+Number of Clusters
+    ↓
+5
+
+Prediction Type
+    ↓
+Customer Cluster Classification
+```
+
+---
+
+# 🛠️ Technology Stack
+
+## Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+* Responsive UI
+* Chart/visualization components
+
+## Backend
+
+* Python
+* Flask
+* REST API
+
+## Machine Learning
+
+* Python
+* Pandas
+* NumPy
+* Scikit-learn
+* K-Means
+* StandardScaler
+* Joblib
+
+## Deployment
+
+### Frontend
+
+[Vercel](https://vercel.com/)
+
+### Backend
+
+[Render](https://render.com/)
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                 ┌─────────────────────┐
+                 │       USER          │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │  Vercel Frontend    │
+                 │ HTML / CSS / JS     │
+                 └──────────┬──────────┘
+                            │
+                       REST API
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │   Flask Backend     │
+                 │      Render         │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ Input Validation    │
+                 │ & Preprocessing      │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │   Saved Scaler      │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ Pre-trained K-Means │
+                 │       Model         │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ Cluster Prediction  │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ Segment & Risk      │
+                 │ Interpretation      │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ Frontend Result     │
+                 │ Dashboard           │
+                 └─────────────────────┘
+```
+
+---
+
+# 📂 Frontend Structure
+
+```text
+customer-segmentation-frontend/
+│
+├── index.html
+├── analysis.html
+├── analytics.html
+├── model.html
+├── segments.html
+│
+├── CSS/
+│   └── styles.css
+│
+├── js/
+│   ├── config.js
+│   ├── analysis.js
+│   ├── analytics.js
+│   └── ...
+│
+└── README.md
+```
+
+---
+
+# 🔌 API Integration
+
+The frontend communicates with the backend through REST APIs.
+
+### Local Development
+
+```text
+http://localhost:5000
+```
+
+### Production
+
+```text
+https://customer-segmentation-api-glw9.onrender.com
+```
+
+The frontend automatically uses the production API when deployed.
+
+---
+
+# 📡 Example Prediction Request
+
+```http
+POST /api/predict
+Content-Type: application/json
+```
+
+Example:
+
+```json
+{
+  "age": 25,
+  "annual_income": 75000,
+  "spending_score": 82
+}
+```
+
+Example response:
 
 ```json
 {
   "success": true,
-  "cluster": 1,
+  "cluster": 2,
   "segment": "Premium Customer",
-  "risk_status": "Low Risk",
-  "description": "High income paired with high spending. The most valuable and engaged customer group.",
-  "input": {
-    "annual_income": 75.0,
-    "spending_score": 82.0,
-    "age": 25.0,
-    "customer_name": "Aditi Sharma"
-  }
+  "risk_status": "Low Risk"
 }
 ```
 
-### Validation errors
+> The exact fields and segment names depend on the trained model and backend configuration.
 
-```json
-{ "success": false, "error": "spending_score must be between 1 and 100" }
+---
+
+# 🚀 Running the Project Locally
+
+## 1. Clone the repository
+
+```bash
+git clone YOUR_GITHUB_REPOSITORY_URL
+cd customer-segmentation
 ```
 
-`annual_income` is in **thousands of dollars** (k$), matching how the
-model was trained — the frontend form and result cards label this clearly.
+## 2. Start the backend
 
-## 4. ML integration, end to end
+Create a Python environment:
 
-```
-Frontend Form
-   -> POST /api/predict (JSON)
-   -> Flask route (routes/prediction.py)
-   -> validate_input() (services/prediction_service.py)
-   -> pd.DataFrame with columns in EXACT training order
-       ["Annual Income (k$)", "Spending Score (1-100)"]
-   -> model.predict(features)   [model loaded once at startup via joblib]
-   -> cluster id (0-4)
-   -> CLUSTER_MAPPING[cluster] -> segment name, risk label, description
-   -> JSON response
-   -> Frontend renders the risk panel, cluster, and insight cards,
-      and drops the customer's exact point onto the same Income vs
-      Spending scatter chart the notebook itself produced.
+```bash
+python -m venv venv
 ```
 
-The model is never retrained and the scaler step (`scaler.transform()`)
-is intentionally **not present**, because the trained model was fit on
-raw values — adding scaling now would silently move every customer into
-a different cluster than the one the actual `kmeans_model.pkl` predicts.
+Activate it.
 
-## 5. Cluster -> segment -> risk mapping
+### Windows
 
-Derived from the real cluster centers (`model.cluster_centers_`), not
-invented:
+```bash
+venv\Scripts\activate
+```
 
-| Cluster | Center (Income, Spending) | Segment                   | Risk        |
-|---------|----------------------------|----------------------------|-------------|
-| 0       | (55.3, 49.5)                | Standard Customer          | Medium Risk |
-| 1       | (86.5, 82.1)                | Premium Customer           | Low Risk    |
-| 2       | (25.7, 79.4)                | Impulsive Spender          | Medium Risk |
-| 3       | (88.2, 17.1)                | Conservative Customer      | Medium Risk |
-| 4       | (26.3, 20.9)                | Budget / At-Risk Customer  | High Risk   |
+### Linux / macOS
 
-"Risk" is a **cluster-based classification** describing engagement/churn
-risk, not a predicted probability of financial or credit risk. This is
-stated explicitly on the "About Model" page. The full reasoning lives in
-`backend/config/cluster_mapping.py` — edit that one file to change the
-mapping; nothing else needs to change.
+```bash
+source venv/bin/activate
+```
 
-## 6. Deviations from the original brief
+Install dependencies:
 
-The original brief assumed 4 features (Age, Annual Income, Spending
-Score, Purchase Frequency), a `StandardScaler`, and 4 clusters. The
-*actual* uploaded notebook trains on 2 features with no scaler and 5
-clusters. Per the brief's own instruction ("If the trained model uses
-different features, automatically adapt the input pipeline to those
-features" / "Do not invent cluster meanings"), this app was built to
-match the real model:
+```bash
+pip install -r requirements.txt
+```
 
-- **Features**: only Annual Income and Spending Score feed the model.
-  Age is collected on the form for display only (shown in the insight
-  cards) since the model was never trained on it. Purchase Frequency
-  doesn't exist in the source dataset, so it isn't collected at all.
-- **Scaler**: none, because none was used during training.
-- **Clusters**: 5, not 4, matching `n_clusters=5` in the notebook.
+Start the Flask server:
 
-## 7. Error handling
+```bash
+python app.py
+```
 
-- Missing/invalid fields -> `400` with a specific validation message.
-- Model or dataset file missing -> `503` with a generic "service
-  unavailable" message (no stack traces are ever sent to the client).
-- Network failure -> the frontend shows a toast + inline banner
-  ("Unable to reach the ML service...") instead of hanging.
-- Duplicate submissions are prevented by disabling the submit button
-  while a request is in flight.
+The backend should run on:
+
+```text
+http://localhost:5000
+```
+
+---
+
+# 🌐 Run the Frontend
+
+Because the frontend uses HTML/CSS/JavaScript, it can be opened using a local development server.
+
+For example, with VS Code:
+
+**Live Server → Open `index.html`**
+
+Or use any static web server.
+
+---
+
+# ☁️ Deployment
+
+## Frontend
+
+The frontend is deployed using **Vercel**.
+
+### Live Website
+
+👉 **[Customer Segmentation AI](https://customer-segmentation-pearl.vercel.app/index.html)**
+
+## Backend
+
+The Machine Learning API is deployed using **Render**.
+
+### Production API
+
+👉 **[Customer Segmentation API](https://customer-segmentation-api-glw9.onrender.com/)**
+
+---
+
+# 📊 Application Pages
+
+| Page                                                                              | Purpose                                |
+| --------------------------------------------------------------------------------- | -------------------------------------- |
+| [Dashboard](https://customer-segmentation-pearl.vercel.app/index.html)            | Overall customer segmentation overview |
+| [Customer Analysis](https://customer-segmentation-pearl.vercel.app/analysis.html) | Analyze a new customer                 |
+| [Segments](https://customer-segmentation-pearl.vercel.app/segments.html)          | Explore customer segments              |
+| [Analytics](https://customer-segmentation-pearl.vercel.app/analytics.html)        | View customer analytics                |
+| [About Model](https://customer-segmentation-pearl.vercel.app/model.html)          | Learn about the ML model               |
+
+---
+
+# 📈 Future Improvements
+
+The project can be extended with:
+
+* Customer lifetime value prediction
+* RFM-based segmentation
+* Customer churn prediction
+* Personalized marketing recommendations
+* Customer similarity search
+* Advanced anomaly detection
+* Multiple clustering algorithms
+* Automatic cluster interpretation
+* Explainable AI
+* Customer behavior forecasting
+* Real-time analytics
+* Authentication and role-based access
+* Database integration
+* Mobile application
+
+---
+
+# 🔬 Possible ML Improvements
+
+Future versions can compare K-Means with:
+
+* Gaussian Mixture Models
+* DBSCAN
+* Agglomerative Clustering
+* BIRCH
+
+This would allow the project to evaluate whether K-Means is the most appropriate clustering approach for the dataset.
+
+Research on customer segmentation has also compared several clustering approaches, including K-Means, GMM, DBSCAN, agglomerative clustering and BIRCH.
+
+---
+
+# 🎓 Educational Purpose
+
+This project demonstrates an end-to-end Machine Learning application:
+
+```text
+Dataset
+   ↓
+Data Preprocessing
+   ↓
+Feature Selection
+   ↓
+K-Means Training
+   ↓
+Model Serialization
+   ↓
+REST API
+   ↓
+Frontend Integration
+   ↓
+Customer Prediction
+   ↓
+Visualization
+   ↓
+Deployment
+```
+
+It is designed as an educational/portfolio project demonstrating how a trained Machine Learning model can be integrated into a real web application.
+
+---
+
+# 👨‍💻 Project Highlights
+
+### Machine Learning
+
+* Unsupervised Learning
+* K-Means Clustering
+* Feature Scaling
+* Cluster Interpretation
+
+### Software Development
+
+* REST API
+* Frontend ↔ Backend integration
+* Model serving
+* JSON-based communication
+* Error handling
+
+### Deployment
+
+* Vercel frontend deployment
+* Render backend deployment
+* Production API integration
+
+---
+
+# 📚 References & Inspiration
+
+The project is based on established customer-segmentation approaches using K-Means clustering. Similar open-source implementations include:
+
+* [Customer Segmentation using K-Means](https://github.com/mayursrt/customer-segmentation-using-k-means)
+* [K-Means Customer Segmentation — Credit Card Behaviour](https://github.com/erenonal/K-means_customer_segmentation)
+* [Customer Segmentation using K-Means Clustering](https://github.com/pantakanch/Customer-Segmentation-using-K-Means-Clustering)
+* [Bank Customer Segmentation with K-Means](https://github.com/Thamilini/BankSeg-KMeans)
+* [Retail E-Commerce Customer Segmentation](https://github.com/yulianthyho/Olist-Ecommerce-RFM-Customer-Segmentation)
+
+These projects demonstrate common applications of K-Means for identifying customer groups based on behavioral and financial characteristics.
+
+---
+
+# ⭐ Project Status
+
+**Status:** 🟢 Deployed
+
+**Frontend:** Vercel
+
+**Backend:** Render
+
+**ML Model:** Pre-trained K-Means
+
+**Clusters:** 5
+
+**Dataset:** 200 customers
+
+**Application:** Live
+
+---
+
+# 🚀 Live Demo
+
+## 👉 [Launch Customer Segmentation AI](https://customer-segmentation-pearl.vercel.app/index.html)
+
+---
+
+## 📄 License
+
+This project is developed for educational and portfolio purposes.
